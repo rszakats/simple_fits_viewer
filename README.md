@@ -41,7 +41,7 @@ pip3 install matplotlib
   ![Fits file opened](screenshots/simplefitsv_opened.png)
 - WCS grid turned on
 
-  ![Chat Status](screenshots/simplefitsv_wcs.png)
+  ![WCS](screenshots/simplefitsv_wcs.png)
 - Header is displayed
 
   ![Header](screenshots/simplefitsv_header.png)
@@ -50,7 +50,7 @@ pip3 install matplotlib
 
 - Can't handle fits cubes.
 - Only can display the first header.
-- Only can save the image in png format and the text in plain text.
+- Only can save the image to png format and the text in plain text.
 
 ## Known problems
 
@@ -59,7 +59,7 @@ pip3 install matplotlib
 
 ## Author
 
-rszakats - rszakats@konkoly.hu
+@author: R. Szakáts, [Konkoly Observatory](https://konkoly.hu/index_en.shtml), ELKH, 2022
 
 ## Credits
 
