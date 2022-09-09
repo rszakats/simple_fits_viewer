@@ -1,10 +1,11 @@
-# simple_fits_viewer
+# Simple FITS Viewer
 A simple fits image viewer using PySimpleGUI.
 
 ## Description
-Simple_fits_viewer is a small and quick GUI program to view astronomical fits files.
+Simple FITS Viewer is a small and quick GUI program to view astronomical fits files.
 It is mainly a hobby project to get some experience with PySimpleGUI.
 It was inspired by the PySimpleGUI demo file, [Demo_Image_Elem_Image_Viewer_PIL_Based.py](https://github.com/PySimpleGUI/PySimpleGUI/blob/master/DemoPrograms/Demo_Image_Elem_Image_Viewer_PIL_Based.py).
+The program uses the astropy package to do the necessary stretching and scaling to display the image and the WCS grid.
 
 ## Installation
 No need. Download simple_fits_viewer.py and run it with python3.
