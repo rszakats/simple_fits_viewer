@@ -13,7 +13,6 @@ import os.path
 from astropy.io import fits
 from astropy.visualization import (ZScaleInterval, MinMaxInterval)
 from astropy.visualization import (LinearStretch, LogStretch)
-import numpy as np
 import matplotlib.pyplot as plt
 import matplotlib
 matplotlib.use('TkAgg')
