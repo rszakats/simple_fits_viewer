@@ -18,7 +18,6 @@ $ python3 simple_fits_viewer.py
 python3.*
 pip3 install PySimpleGUI
 pip3 install astropy
-pip3 install numpy
 pip3 install matplotlib
 ```
 ## Features
