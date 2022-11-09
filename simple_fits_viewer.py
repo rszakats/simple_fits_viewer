@@ -112,12 +112,12 @@ def plot_fits(figure_agg, scale, stretch, grid):
     return figure_agg, obj, dateobs, l
 
 
-def get_header():
+def get_header(hnum):
     try:
         file = os.path.join(values['-FOLDER-'], values['-FILE LIST-'][0])
         hdu = fits.open(file)
         eq = "="
-        l = (list(hdu[0].header.keys()))
+        l = (list(hdu[hnum[0]].header.keys()))
         h = f'KEY\t\t   \tVALUE\n----------------------------------------------------------\n'
         for ll in l:
             h += f"{ll}\t\t {eq:^8} \t {hdu[0].header[ll]}\n"
@@ -146,6 +146,28 @@ def make_win2(head):
             log = f"Saving {file}."
             window['-LOG-'].update(log+"\n", append=True)
 
+def make_popup(headers):
+    layout3 = [[sg.Menu(hmenu), [sg.Listbox(headers, size=(60,10), key='SELECTED')],
+        [sg.Button('OK')],]]
+    window3 = sg.Window('FITS Header Select', layout3, resizable=True, size=(400, 200), finalize=True)
+    # window3.find_element('-SELECTED-').Update(headers)
+    while True:
+        event, values = window3.read()
+        if event in (sg.WIN_CLOSED, 'Exit'):
+            window3.close()
+            break     
+        elif event == sg.WIN_CLOSED or event == 'Exit':
+            window3.close()
+            break
+        elif event == 'OK':
+            window3.close()
+            break
+    
+    # print(f"Value selected: {values['SELECTED'][0]}")
+    if values and values['SELECTED']:
+        return values['SELECTED'][0]
+    else:
+        return [0]
 
 # --------------------------------- Define Layout ---------------------------------
 sg.theme('NeutralBlue')
@@ -268,11 +290,19 @@ while True:
                 log = f"Setting WCS grid"
                 window['-LOG-'].update(log+"\n", append=True)
     if event == 'Header':
-        if figure_agg:
-            log = f"Viewing header of {values['-FILE LIST-'][0]}"
-            window['-LOG-'].update(log+"\n", append=True)
-            head = get_header()
-            make_win2(head)
+        try:
+            if figure_agg:
+                log = f"Viewing header of {values['-FILE LIST-'][0]}"
+                window['-LOG-'].update(log+"\n", append=True)
+                file = os.path.join(values['-FOLDER-'], values['-FILE LIST-'][0])
+                hdu = fits.open(file)
+                headers = hdu.info(output=False)
+                hnum = make_popup(headers)
+                head = get_header(hnum)
+                make_win2(head)
+        except Exception as e:
+            print(e)
+
     if event == 'Save':
         if figure_agg:
             file_path = sg.popup_get_file('Save as', no_window=True, save_as=True) + '.png'
