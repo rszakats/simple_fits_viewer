@@ -8,27 +8,37 @@ https://github.com/PySimpleGUI/PySimpleGUI/blob/master/DemoPrograms/Demo_Image_E
 """
 
 
-import PySimpleGUI as sg
 import os.path
-from astropy.io import fits
-from astropy.visualization import (ZScaleInterval, MinMaxInterval)
-from astropy.visualization import (LinearStretch, LogStretch)
-import matplotlib.pyplot as plt
+
 import matplotlib
+import matplotlib.pyplot as plt
+import PySimpleGUI as sg
+from astropy.io import fits
+from astropy.visualization import (LinearStretch, LogStretch, MinMaxInterval,
+                                   ZScaleInterval)
+
 matplotlib.use('TkAgg')
-from astropy.visualization import ImageNormalize
-from matplotlib.backends.backend_tkagg import FigureCanvasTkAgg
 from pathlib import Path
+
+from astropy.visualization import ImageNormalize
 from astropy.wcs import WCS
+from matplotlib.backends.backend_tkagg import FigureCanvasTkAgg
 
 
 def convert_fits(file, scale=None, stretch=None, with_grid=None):
     try:
         hdu = fits.open(file)
-        data = hdu[0].data
+        headers = hdu.info(output=False)
+        try:
+            if len(headers) == 1:
+                data = hdu[0].data
+            else:
+                result = [tup[1] for tup in headers].index('image'.casefold())
+                data = hdu[result].data
+        except Exception as e:
+            print(f"Cannot find image data!\nException: {e}")
     except Exception as e:
         print(f"Not a fits file!\nException: {e}")
-    
     if scale == None or scale == "zscale":
         interval = ZScaleInterval()    
     elif scale == "minmax":
